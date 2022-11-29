@@ -1,4 +1,3 @@
-
 """
 !----------------------------------------------------------------------
 !
@@ -35,123 +34,126 @@
 
 """
 
-#=================================================
-#Time Invariant Variables
-#---------------------------------------------------------------------
+
+# =================================================
+# Time Invariant Variables
+# ---------------------------------------------------------------------
 # Soil Properties (Soil)
-#---------------------------------------------------------------------
+# ---------------------------------------------------------------------
 
-class SoilProperties:
+class SoilType:
     def __init__(self):
-        #...soil properties
-        self.sandfrac = None= None # soil sand fraction
-        self.clayfrac = None= None # soil clay fraction
-        self.soref_vis = None= None # soil shortwave reflectance (-)
-        self.soref_nir = None= None # soil longwave reflectance (-)
+        # ...soil properties
+        self.sandfrac = None  # soil sand fraction
+        self.clayfrac = None  # soil clay fraction
+        self.soref_vis = None  # soil shortwave reflectance (-)
+        self.soref_nir = None  # soil longwave reflectance (-)
 
-        self.poros = None= None # soil porosity (zero to one)
-        self.satco = None= None # hydraulic conductivity at saturation (m/s)
+        self.poros = None  # soil porosity (zero to one)
+        self.satco = None  # hydraulic conductivity at saturation (m/s)
+
+        self.csolid = None  # heat capacity, soil solids (J/m3/K)
+        self.tkdry = None  # thermal conductivity, dry soil (W/m/K)
+        self.tkmg = None  # thermal conductivity, soil minerals (W/m/K)
+        self.tksat = None  # thermal conductivity, saturated soil (W/m/K)
+
+        # ...soil variables for plant water stress
+        self.bee = None  # Clapp & Hornberger 'b' exponent (-)
+        self.phsat = None  # Soil tension at saturation (m)
+        self.fieldcap = None  # Field Capacity (1/m3)
+        self.vwcmin = None  # Wilting Point (1/m3)
+
+        # ...soil variables for respiration
+        self.wopt = None  # respiration function optimum soil moisture (-)
+        self.woptzm = None  # wopt to the zm exponent
+        self.wsat = None  # respiration function value (-)
+        self.zm = None  # respiration function exponent (-)
+
+        # ...soil variables for water availability
+        self.fc_eff = None  # Effective Field Capacity (1/m3, size = nsoil)
+        self.wp_eff = None  # Effective Wilting Point (1/m3, size = nsoil)
 
 
-        self.csolid = None = None # heat capacity, soil solids (J/m3/K)
-        self.tkdry = None = None # thermal conductivity, dry soil (W/m/K)
-        self.tkmg = None = None # thermal conductivity, soil minerals (W/m/K)
-        self.tksat = None= None # thermal conductivity, saturated soil (W/m/K)
-
-        #...soil variables for plant water stress
-        self.bee = None # Clapp & Hornberger 'b' exponent (-)
-        self.phsat = None # Soil tension at saturation (m)
-        self.fieldcap = None # Field Capacity (1/m3)
-        self.vwcmin = None # Wilting Point (1/m3)
-
-        #...soil variables for respiration
-        self.wopt = None # respiration function optimum soil moisture (-)
-        self.woptzm = None # wopt to the zm exponent
-        self.wsat = None # respiration function value (-)
-        self.zm = None # respiration function exponent (-)
-
-        #...soil variables for water availability
-        self.fc_eff = None #Effective Field Capacity (1/m3, size = nsoil)
-        self.wp_eff = None #Effective Wilting Point (1/m3, size = nsoil)
-
-#===================================================================
-#=================================================
-#Time-Step Varying Variables
-#-------------------------------------------------
+# ===================================================================
+# =================================================
+# Time-Step Varying Variables
+# -------------------------------------------------
 # Canopy (Can) and Canopy Air Space (CAS) Variables
-#-------------------------------------------------
+# -------------------------------------------------
 
 class CasType:
     def __init__(self):
         # ...Canopy prognostic variables
-        self.tc = None = None # canopy temperature (K)
+        self.tc = None  # canopy temperature (K)
 
         # ...CAS prognostic variables
-        self.eacas = None # CAS water vapor pressure (hPa or mb)
-        self.shcas = None # CAS water vapor mixing ratio (kg/kg)
-        self.tcas = None # CAS temperature (K)
-        self.tkecas = None # CAS turbulent kinetic energy (J/kg)
+        self.eacas = None  # CAS water vapor pressure (hPa or mb)
+        self.shcas = None  # CAS water vapor mixing ratio (kg/kg)
+        self.tcas = None  # CAS temperature (K)
+        self.tkecas = None  # CAS turbulent kinetic energy (J/kg)
 
         # ...Canopy environmental variables
-        self.hcapc = None # canopy heat capacity (J/m2/K)
-        self.tcmin = None # frost
+        self.hcapc = None  # canopy heat capacity (J/m2/K)
+        self.tcmin = None  # frost
 
         # ...CAS environmental variables
-        self.thcas = None # CAS potential temperature (K)
-        self.hcapcas = None # CAS heat capacity (J/m2/K)
+        self.thcas = None  # CAS potential temperature (K)
+        self.hcapcas = None  # CAS heat capacity (J/m2/K)
         self.vcapcas = None  # CAS vapor capacity (J/m2/hPa)
 
-#-------------------------------------------------
+
+# -------------------------------------------------
 # CO2/Photosynthesis Variables (CAN; CAS; PFT)
-#-------------------------------------------------
+# -------------------------------------------------
 class Co2Type:
     def __init__(self):
         # ...assimilation
-        self.assim = None # gross assimilation (mol C/m2/s)
-        self.assimd = None # daily (24hr running-mean) assimilation (mol C/m2/s)
-        self.clim_assim = None # climatological assimilation (mol C/m2/s)
+        self.assim = None  # gross assimilation (mol C/m2/s)
+        self.assimd = None  # daily (24hr running-mean) assimilation (mol C/m2/s)
+        self.clim_assim = None  # climatological assimilation (mol C/m2/s)
 
         # ...canopy scaling
-        self.assimpot = None # potential top leaf photosynthesis (mol C/m2/s)
-        self.apar = None # absorbed photosynthetically active radiation (mol/m2/s)
-        self.aparkk = None # factor for scaling of leaf radiation (-)
-        self.gamma = None # CO2 photocompensation point (Pa)
-        self.par = None # photosynthetically active radiation (mol/m2/s)
-        self.nspar = None # non-scattered photosynthetically active radiation (mol/m2/s)
+        self.assimpot = None  # potential top leaf photosynthesis (mol C/m2/s)
+        self.apar = None  # absorbed photosynthetically active radiation (mol/m2/s)
+        self.aparkk = None  # factor for scaling of leaf radiation (-)
+        self.gamma = None  # CO2 photocompensation point (Pa)
+        self.par = None  # photosynthetically active radiation (mol/m2/s)
+        self.nspar = None  # non-scattered photosynthetically active radiation (mol/m2/s)
 
         # ...canopy air space (CAS) fluxes
-        self.casd = None # CAS depth for CO2 (m)
-        self.cflux = None # CAS to ref height carbon flux (mol C/m2/s)
+        self.casd = None  # CAS depth for CO2 (m)
+        self.cflux = None  # CAS to ref height carbon flux (mol C/m2/s)
 
         # ...co2 concentrations
-        self.pco2cas = None # CAS CO2 partial pressure (Pa)
-        self.pco2c = None # chloroplast CO2 partial pressure (Pa)
-        self.pco2i = None # leaf internal CO2 partial pressure (Pa)
-        self.pco2s = None # leaf surface CO2 partial pressure (Pa)
+        self.pco2cas = None  # CAS CO2 partial pressure (Pa)
+        self.pco2c = None  # chloroplast CO2 partial pressure (Pa)
+        self.pco2i = None  # leaf internal CO2 partial pressure (Pa)
+        self.pco2s = None  # leaf surface CO2 partial pressure (Pa)
 
         # ...resistances
-        self.rst = None # prognostic stomatal resistance (s/m)
+        self.rst = None  # prognostic stomatal resistance (s/m)
 
         # ..soil freeze functions
-        self.soilfrz = None # soil freeze function (-)
-        self.soilfrztg = None # soil freeze function for top soil layer (-)
-        self.soilfrztd = None # soil freeze function for second soil layer (-)
+        self.soilfrz = None  # soil freeze function (-)
+        self.soilfrztg = None  # soil freeze function for top soil layer (-)
+        self.soilfrztd = None  # soil freeze function for second soil layer (-)
 
         # .....total stress factors
-        self.rstfac = [None, None, None, None] # canopy stress factors (-)
+        self.rstfac = [None, None, None, None]  # canopy stress factors (-)
         #  (1) leaf surface RH stress
         #  (2) rootzone water stress
         #  (3) temperature stress
         #  (4) product of factors 1-3
-        self.vmaxss = None # stressed rubisco velocity (mol/m2/s)
+        self.vmaxss = None  # stressed rubisco velocity (mol/m2/s)
 
-#-------------------------------------------------
+
+# -------------------------------------------------
 # Carbonyl Sulfide (COS) Variables (CAN; CAS; PFT)
-#-------------------------------------------------
+# -------------------------------------------------
 class COSType:
     def __init__(self):
         # ...COS CAS
-        self.cos_casd = None # CAS depth for COS (m)
+        self.cos_casd = None  # CAS depth for COS (m)
         self.cos_flux = None  # CAS COS flux (mol/m2/s)
 
         # ...COS concentrations
@@ -176,9 +178,10 @@ class COSType:
         self.cosgm = None  # 'apparent' mesophyll conductance (mol/m2/s)
         self.cosgt = None  # total conductance (mol/m2/s)
 
-#-------------------------------------------------
+
+# -------------------------------------------------
 # Dead Pool Equilibrium Variables (Soil)
-#-------------------------------------------------
+# -------------------------------------------------
 class EquibdType:
     def __init__(self):
         # ...prognostic land pool variables for equilibrium
@@ -216,820 +219,714 @@ class EquibdType:
         self.deadsoil_notdone = None  # flag for if pools are spunup (logical)
 
         # ...spin-up variables
-        self.lupft_spunup = None(logical)
-
-
-"""
-
-
-!-------------------------------------------------
-! Live Pool Equilibrium Variables (PFT)
-!-------------------------------------------------
-type, public :: equibl_type
-
-    !...prognostic pool variables for equilibrium calculation
-    real(r8), dimension(:), allocatable :: & !(npoolpft)
-          poolpft_totgain, & !sum of pool gains (mol/m2)
-          poolpft_totloss    !sum of pool losses (mol/m2)
-
-     !...equilibrium variables for individual pools
-     real(r8), dimension(:), allocatable :: & !(npoolpft)
-          poolpft_init,  & !initial pools (mol C/m2)
-          poolpft_end,   & !ending pools (mol C/m2)
-          poolpft_min,   & !minimum pool value (mol C/m2)
-          poolpft_max,   & !maximum pool value (mol C/m2)
-          poolpft_gain,  & !net gain (mol C/m2)
-          poolpft_loss,  & !net loss (mol C/m2)
-          poolpft_ratio, & !ratio of input/output (-)
-          poolpft_equib    !equilibrium pools (mol C/m2)
-
-     logical, dimension(:), allocatable :: & !(npoolpft)
-          poolpft_notdone  !flag for if live pools are spunup
-
-     !...equilibrium variables for live pool sums
-     !.....leaf + root + wood + prod
-     real(r8) :: live_init     !initial live pool total (mol C/m2)
-     real(r8) :: live_end      !ending live pool total (mol C/m2)
-     real(r8) :: live_gain     !live pool net gain (mol C/m2)
-     real(r8) :: live_loss     !live pool net loss (mol C/m2)
-     real(r8) :: live_ratio    !gain/loss ratio (-)
-     logical  :: live_notdone     !flag for if live pools are spunup
-
-end type equibl_type
-
-
-!---------------------------------------------------------------------
-! Flux Variables (CAN; CAS; PFT)
-!---------------------------------------------------------------------
-type, public :: flux_type
-
-    !...land-atmosphere exchange info
-    real(r8) :: ct       !thermal transfer coefficient (-)
-    real(r8) :: cu       !momentum transfer coefficient (-)
-    real(r8) :: drag     !drag (kg/m2/s)
-    real(r8) :: ustar    !friction velocity (m/s)
-    real(r8) :: ventmf   !ventilation mass flux (kg/m2/s)
-
-     !...latent heat flux
-     real(r8) :: ec      ! canopy latent heat flux (J/m2)
-     real(r8) :: eci     ! latent heat flux, canopy interception (puddles) (J/m2)
-     real(r8) :: ect     ! latent heat flux, canopy transpiration (J/m2)
-     real(r8) :: eg      ! ground latent heat flux (J/m2)
-     real(r8) :: egi     ! latent heat flux, ground interception (puddles) (J/m2)
-     real(r8) :: egs     ! latent heat flux, ground evaporation (J/m2)
-     real(r8) :: egsmax  ! maximum ground evapotration per timestep (J/m2)
-     real(r8) :: es      ! snow latent heat flux (J/m2)
-     real(r8) :: fws     ! CAS-BL latent heat flux (W/m2)
-
-     !...sensible heat flux
-     real(r8) :: hc      ! canopy sensible heat flux (J/m2)
-     real(r8) :: hg      ! ground sensible heat flux (J/m2)
-     real(r8) :: hs      ! snow sensible heat flux (J/m2)
-     real(r8) :: fss     ! CAS-BL sensible heat flux (W/m2)
-
-     !...storage heat flux
-     real(r8) :: storhc  ! canopy heat storage flux (W/m2)
-     real(r8) :: storhg  ! ground heat storage flux (W/m2)
-
-     !...resistances
-     real(r8) :: ra      ! canopy air space - mixed layer resistance (s/m)
-     real(r8) :: rb      ! canopy to canopy air space resistance (s/m)
-     real(r8) :: rbc     ! canopy to canopy air space resistance
-                         !    adjusted for snow (-)
-     real(r8) :: rc      ! bulk leaf to canopy resistance (s/m)
-     real(r8) :: rd      ! ground to canopy air space resistance (s/m)
-     real(r8) :: rdc     ! ground to canopy air space resistance
-                         !    adjusted for snow (-)
-     real(r8) :: rds     ! ground and soil resistance (s/m)
-
-    !...balance checks
-    integer(i4) :: ebalnum  !energy balance
-    integer(i4) :: wbalnum  !water balance
-
-end type flux_type
-
-
-!---------------------------------------------------------------------
-! Soil Hydrology Variables (Soil)
-!---------------------------------------------------------------------
-type, public :: hydros_type
-
-     !...environmental variables
-     real(r8) :: rhsoil  ! soil surface relative humidity (-)
-     real(r8) :: rsoil   ! soil surface resistance
-                         !  (due to surface tension, s/m)
-
-     !...evapotranspiration
-     real(r8) :: ecmass   ! canopy evapotranspiration (kg/m2 or mm water)
-     real(r8) :: egmass   ! ground evaporation (kg/m2 or mm water)
-
-     !...precipitation
-     real(r8) :: infil     ! water infiltrated into top soil layer (mm)
-     real(r8) :: p0        ! ground surface precip (mm)
-     real(r8) :: pcpg_rain ! ground surface rain precip (mm/s)
-     real(r8) :: pcpg_snow ! ground surface snow precip (mm/s)
-
-     !...runoff
-     real(r8) :: roff      ! total subsurface runoff from soil layers (mm)
-     real(r8) :: roffo     ! overland runoff (mm)
-
-     !...snow
-     real(r8) :: snow_gdepth  ! depth of snow on ground (m)
-     real(r8) :: snow_gmass   ! mass of snow on ground (kg/m2)
-     real(r8) :: snow_gvfc    ! snow ground cover fraction (0-1)
-                              !   (formerly areas)
-
-     !...soil diagnostics
-     real(r8) :: www_tot     !total soil water-all layers, water+ice (kg/m2)
-     real(r8) :: www_inflow  !water inflow at ground surface (kg/m2/s)
-     real(r8) :: satfrac     !total fraction of water saturation in soil column (-)
-
-     !...water interception
-     real(r8) :: capacc_liq   ! prognostic canopy surface liquid (kg/m2)
-     real(r8) :: capacc_snow  ! prognostic canopy surface snow (kg/m2)
-                              !   (formerly snow_veg)
-     real(r8) :: capacg       ! prognostic ground surface liquid (kg/m2)
-     real(r8) :: satcapc      ! canopy wetness storage limit (kg/m2)
-     real(r8) :: satcapg      ! ground wetness storage limit (kg/m2)
-
-     real(r8) :: snow_cvfc  ! snow vertical cover fraction (-)
-                            !   (formerly canex=1-snow_cvfc)
-     real(r8) :: wetfracc  ! canopy wetness fraction (-)
-     real(r8) :: wetfracg  ! ground wetness fraction (-)
-
-end type hydros_type
-
-
-!-------------------------------------------------
-! Vegetation-Specific Hydrology Variables (PFT)
-!-------------------------------------------------
-type, public :: hydrov_type
-     !...rooting zone information
-     !......Plant Available Water (PAW; liquid only)
-     real(r8), dimension(:), allocatable :: &  !(nsoil)
-         paw_lay,    &  !PAW per soil layer (kg/m3)
-         pawmax_lay, &  !PAW maximum per soil layer (kg/m3)
-         pawfrac_lay    !PAW fraction per soil layer (-)
-     real(r8) :: &
-         pawfrw,  &     !Root-weighted PAW fraction in soil column (kg/m2)
-         pawftop, &     !Mean PAW fraction in top 3 soil layers (-)
-         pawfzw         !Soil-layer depth-weighted PAW fraction (kg/m2)
-
-     !......Total Available Water (TAW; liquid + ice)
-     real(r8), dimension(:), allocatable :: &
-         taw_lay,     & !TAW per soil layer (kg/m3)
-         tawfrac_lay    !TAW fraction per soil layer (-)
-
-     real(r8) :: &
-          tawfrw,  &  !Root-weighted TAW in soil column (kg/m2)
-          tawftop, &  !Mean TAW fraction in top 3 soil layers (-)
-          tawfzw      !Soil-layer depth weighted TAW fraction (kg/m2)
-
-     !.....Climatological Water Availability
-     real(r8) :: clim_pawfrw !climatological root-weighted PAW fraction (-)
-     real(r8) :: clim_tawfrw !climatological root-weighted TAW fraction (-)
-
-end type hydrov_type
-
-
-!-----------------------------------------------------
-! Phenology Variables (PFT)
-!-----------------------------------------------------
-type, public :: phen_type
-
-     !...growing season start determinants
-     real(r8) :: phenave_assim     !Running-Mean Assimilation (mol C/m2/s)
-     real(r8) :: phenave_assimsm   !Seasonal Maximum Mean Assimilation (mol C/m2/s)
-     real(r8) :: phenave_assimpot  !Mean Assimilation Potential (-)
-     logical ::  phenflag_assimlow !Assimilation Flag For Growing Season Reset
-
-     real(r8) :: phenave_pr       !Seasonal Mean Precipitation (mm/day)
-     real(r8) :: phenave_prsm     !Seasonal Maximum Mean Precipitation (mm/day)
-     real(r8) :: phenave_prsdoy   !Seasonal Day of Maximum Precip (doy)
-     real(r8) :: phenave_prcdoy   !Climatological Mean Day of Max Precip (doy)
-     real(r8) :: phenave_prpot    !Seasonal Precipitation Potential (-)
-     logical  :: phenflag_precip  !Precipitation Flag for Growing Season Start
-
-     real(r8) :: phenave_tawftop   !Running-Mean TAW in Top 3 Soil Layers (-)
-     logical  :: phenflag_moist    !Moisture Flag for Growing Season Start
-
-     real(r8) :: phenave_tm        !Running-Mean Temperature (K)
-     logical  :: phenflag_temp     !Temperature Flag for Growing Season Start
-
-     logical :: phenflag_daylen    !Daylength Flag for Growing Season Start
-     logical :: phenflag_gsspass   !Combined Growing Season Start Flag
-
-     !...growing season information
-     integer(i4) :: nd_dormant !# of days dormant
-     integer(i4) :: nd_gs      !# of days of growing season
-     integer(i4), dimension(:), allocatable :: & !(npstg-1)
-             nd_stg   !# of days per stage (npstg-1)
-
-     !...phenology stage
-     integer(i4) :: phen_istage !Phenology Stage (1-5)
-     real(r8) :: phen_pi       !Phenology Stage Index
-
-     !...dynamic phenology stage variables
-     real(r8) :: phens_dayl     !Phenology Stage Daylength Potential
-
-     real(r8) :: phenc_climp    !Climatological Suitability (-)
-     real(r8) :: phenc_laimax   !Max Potential LAI (m2/m2)
-     real(r8) :: phenc_laimin   !Min Potential LAI (m2/m2)
-     real(r8) :: phens_grw      !Phenology Stage Growth Potential
-
-     real(r8) :: phenave_env  !Environmental Conditions Potential
-     real(r8) :: phenave_wa   !Water Availability Potential
-     real(r8) :: phenave_wac  !Combined Environmental and Water Potential
-     real(r8) :: phenave_wacsm !Seasonal Maximum Combined Potential
-     real(r8) :: phens_wx      !Phenology Stage Weather Potential
-
-     !...defined phenology stage variables
-     integer(i4) :: ipd  !planting date (doy)
-     integer(i4) :: dapd    !days after planting date (days)
-     integer(i4) :: dapdaf  !days after planting above freezing (days)
-     real(r8) :: gdd     !growing degree days (-)
-     real(r8) :: seed_pool    !seed pool carbon (mol C/m2)
-
-end type phen_type
-
-
-!---------------------------------------------------------------------
-! Dead Pool Variables (Soil)
-!---------------------------------------------------------------------
-type, public :: poold_type
-
-     !====Dead Pool Gains (per timestep)====!
-
-     !-------------
-     !Grazing Gains (per soil layer)
-     real(r8), dimension(:,:), allocatable :: &  !(npoollu)
-             gain_grz_lay !gain from grazing (mol C/m2/s)
-
-     !--------------
-     !Harvest Gains (per soil layer)
-     real(r8), dimension(:,:), allocatable :: &  !(npoollu,nsoil)
-            gain_hrvst_lay !gain from harvest (mol C/m2/s)
-
-     !-------------------------
-     !Live Pool Transfer Gains (per soil layer)
-     real(r8), dimension(:,:), allocatable :: &  !(npoollu,nsoil)
-            gain_transl_lay  !gain from live pools (mol C/m2/s)
-
-     !-------------------------
-     !Dead Pool Transfer Gains (per soil layer)
-     real(r8), dimension(:,:), allocatable :: &  !(npoollu,nsoil)
-            gain_transd_lay  !gain from dead pools (mol C/m2/s)
-
-
-     !====Dead Pool Losses (per timestep)====!
-     !---------------------------------------
-
-     !Fire Loss
-     real(r8), dimension(:,:), allocatable :: &  !(npoollu,nsoil)
-           loss_fire_lay   !loss from fire (mol C/m2/s)
-
-     !Heterotrophic Respiration/Transfer Loss
-
-     !...surface pools
-     real(r8) :: mhrt_sfc_assim  !surface assimilation scalar (-)
-     real(r8) :: mhrt_sfc_freeze !surface cold/freezing scalar (-)
-     real(r8) :: mhrt_sfc_hot    !surface high temperature scalar (-)
-     real(r8) :: mhrt_sfc_precip !surface precip scaling factor (-)
-     real(r8) :: mhrt_sfc_scale  !surface respiration scaling coefficient (-)
-
-     !...soil pools per soil layer
-     real(r8), dimension(:), allocatable ::  &  !(nsoil)
-            mhrt_soil_freeze_lay, & !freeze inhibition scalar (-)
-            mhrt_soil_hot_lay,   & !high temperature scalar (-)
-            mhrt_soil_moist_lay, & !soil moisture scalar (-)
-            mhrt_soil_pawf_lay,  & !PAW fraction scalar (-)
-            mhrt_soil_scale_lay    !combined soil scalar (-)
-
-     !...soil scalars root-weighted
-     real(r8) :: &
-            mhrt_soil_assim,  & !assimilation scalar (-)
-            mhrt_soil_freeze, & !freeze inhibition scalar (-)
-            mhrt_soil_hot,    & !high temperature scalar (-)
-            mhrt_soil_moist,  & !soil moisture scaling factor (-)
-            mhrt_soil_pawfrw, & !soil pawfrw scalar (-)
-            mhrt_soil_precip, & !soil precipitation scalar (-)
-            mhrt_soil_scale     !combined soil scalar (-)
-
-     !...respiration and transfer information per soil layer
-     real(r8), dimension(:,:), allocatable :: &  !(npoollu,nsoil)
-           kratert_lay,    & !scaled decay rate (1/s)
-           loss_resp_lay,  & !loss from respiration (mol C/m2/s)
-           loss_trans_lay    !loss from decay transfers (mol C/m2/s)
-
-     !...combined respiration rates
-     real(r8) :: resp_het  !heterotrophic respiration (mol C/m2/s)
-     real(r8) :: resp_soil !soil respiration (mol C/m2/s)
-     real(r8), dimension(:), allocatable :: &  !(nsoil)
-            resp_soil_lay
-     real(r8) :: resp_soilnr  !soil respiration w/o roots (mol C/m2/s)
-     real(r8), dimension(:), allocatable :: &  !(nsoil)
-            resp_soilnr_lay
-
-     !------------------------
-     !Daily net pool change (per soil layer)
-     real(r8), dimension(:,:), allocatable ::   &  !(npoollu,nsoil)
-           poollu_dgain,  & !pool gain (mol C/m2/day)
-           poollu_dloss     !pool loss (mol C/m2/day)
-
-     !------------------------
-     !Prognostic Carbon Pools
-     real(r8), dimension(:), allocatable ::   &  !(npoollu)
-           poollu  !vertically integrated pool size (mol C/m2)
-     real(r8), dimension(:,:), allocatable :: &  !(npoollu,nsoil)
-           poollu_lay !prognostic dead carbon pools (mol C/m2)
-     real(r8), dimension(:,:), allocatable :: &  !(npoollu,nsoil)
-           poollu_flay  !fraction of carbon per soil layer (-)
-
-     !---------------
-     !Carbon Balance
-     real(r8), dimension(:), allocatable :: & !(npoollu)
-         poollup !previous carbon pool (mol C/m2)
-
-end type poold_type
-
-
-!-------------------------------------------------
-! Live Pool Variables (PFT)
-!-------------------------------------------------
-type, public :: pooll_type
-
-    !====Live Pool Gains (lpg, per timestep)====!
-     !===========================================!
-
-     !------------------
-     !Assimilation Gains
-     !...allocation fractions for live biomass (vary from 0 to 1)
-     real(r8), dimension(:), allocatable :: &  !(npoolpft)
-          alloc !allocation fractions
-
-     !...dynamic allocation contributions (vary from -1 to 1)
-     logical :: aadj_moist !allow moisture adjustments?
-     logical :: aadj_temp  !allow temperature adjustments?
-
-     real(r8), dimension(:), allocatable :: &  !(npoolpft)
-          alloc_phen,  & !allocation based on phenological state
-          alloc_moist, & !allocation adjustments due to moisture stress
-          alloc_temp     !allocation adjustments due to temperature stress
-
-     !...pool gains from photosynthesis divied up by allocation fraction
-     real(r8), dimension(:), allocatable :: &  !(npoolpft)
-          gain_assim  !gain from photosynthesis (mol C/m2/s)
-
-     !---------------------
-     !Seed (Transfer) Gains
-     real(r8), dimension(:), allocatable :: &  !(npoolpft)
-          gain_seed   !gain from seed (mol C/m2/s)
-
-     !====Live Pool Losses (lpl, per timestep)====!
-     !===========================================!
-
-     !-----------------------
-     !Autotrophic Respiration
-     !....Growth.....
-     real(r8), dimension(:), allocatable :: &  !(npoolpft)
-          loss_gresp   !loss from growth resp (mol C/m2/s)
-
-     !.....Maintenance.....
-     !...canopy respiration scaling coefficients
-     real(r8) :: mcr_assim     !canopy assimilation scalar
-     real(r8) :: mcr_freeze    !canopy freeze inhibition
-     real(r8) :: mcr_hot       !canopy high temperature exponential
-     real(r8) :: mcr_scale     !combined canopy respiration scalar
-
-     !...root respiration scaling coefficients
-     real(r8), dimension(:), allocatable :: &  !(per soil layer)
-           mrr_freeze_lay, & !roots freeze inhibition scalar
-           mrr_hot_lay,    & !roots high temperature exponential
-           mrr_scale_lay     !combined roots scalar
-
-     real(r8) :: &        !root-weighted
-           mrr_assim,  &  !assimilation
-           mrr_freeze, &  !freeze inhibition
-           mrr_hot,    &  !high temperature
-           mrr_lai,    &  !leaf support
-           mrr_scale      !combined root-weighted scalar for respiration
-
-     !...maintenance respiration information per soil layer
-     real(r8), dimension(:,:), allocatable :: &  !(npoolpft,nsoil)
-          krater_lay, &  !scaled maintainance loss rate (1/s)
-          loss_mresp_lay !loss from maintainence (mol C/m2/s)
-
-     !.....Combined Respiration Rates.....
-     real(r8) :: resp_auto !autotrophic respiration (mol C/m2/s)
-     real(r8) :: resp_grow !growth respiration (mol C/m2/s)
-     real(r8) :: resp_leaf !leaf respiration (mol C/m2/s)
-     real(r8) :: resp_mntn !maintainence respiration (mol C/m2/s)
-     real(r8) :: resp_nveg !non-vegetation respiration (mol C/m2/s)
-     real(r8) :: resp_root !root respiration (mol C/m2/s)
-
-     !----------------------
-     !Live-To-Dead Transfer
-     !.....transfers use fractions of the pool that is transferring
-     !.....transfer = fraction * pool_size
-
-     !...leaf transfer (fractions per day)
-     real(r8) :: tfl_daylen   !shortening daylength
-     real(r8) :: tfl_freeze   !freezing
-     real(r8) :: tfl_dry      !water deficiency
-     real(r8) :: tfl_pstage   !phenology stage
-     real(r8) :: tfl_total    !total leaf transfer
-
-     !.....turnover transfer
-     real(r8), dimension(:), allocatable :: &  !(npoolpft)
-           tf_turnover !fractions per day
-
-     !...transfer loss information (per soil layer)
-     real(r8), dimension(:,:), allocatable :: &  !(npoolpft,nsoil)
-          loss_trans_lay  !loss to dead pool transfers (mol C/m2/s)
-
-     !------------
-     !Fire Loss
-     real(r8) :: nd_fire   !# of days burned
-     real(r8) :: resp_fire !fire respiration (mol C/m2/s)
-     real(r8) :: rmmd_fire !fire emitted but not removed due to
-                           !  fire dataset and SiB4 mismatch (mol C/m2/s)
-     real(r8), dimension(:,:), allocatable :: &  !(npoolpft,nsoil)
-              loss_fire_lay  !loss from fire (mol C/m2/s)
-
-     !------------
-     !Grazing Loss
-     real(r8) :: nd_grz !# of days grazed
-     real(r8) :: resp_grz !grazing respiration (mol C/m2/s)
-     real(r8), dimension(:), allocatable :: &  !(npoolcan)
-              loss_grz !loss from grazing (mol C/m2/s)
-
-     !-------------
-     !Harvest Loss
-     real(r8), dimension(:,:), allocatable :: &  !(npoolpft,nsoil)
-         loss_hrvst_lay     !loss from harvest per soil layer (mol C/m2/s)
-     real(r8) :: resp_hrvst !C harvest respiration (mol C/m2/s)
-     real(r8) :: rmvd_hrvst !C harvested and removed (mol C/m2)
-
-
-     !-------------------------------------
-     !Daily net pool change (per soil layer)
-     real(r8), dimension(:,:), allocatable ::  & !(npoolpft,nsoil)
-           poolpft_dgain, & !pool gain (mol C/m2/day)
-           poolpft_dloss    !pool loss (mol C/m2/day)
-
-     !------------------------
-     !Prognostic Carbon Pools
-     real(r8), dimension(:), allocatable ::  & !(npoolpft)
-          poolpft      !vertically integrated pool size (mol C/m2)
-     real(r8), dimension(:,:), allocatable :: &  !(npoolpft,nsoil)
-          poolpft_lay  ! prognostic carbon pools (mol C/m2)
-     real(r8), dimension(:,:), allocatable :: & !(npoolpft,nsoil)
-          poolpft_flay !fraction of carbon per soil layer (-)
-
-     !---------------
-     !Carbon Balance
-     real(r8), dimension(:), allocatable :: & !(npoolpft)
-         poolpftp   !previous carbon pool (mol C/m2)
-
-end type pooll_type
-
-
-!---------------------------------------------------------------------
-! Radiation Variables (CAN, CAS, Soil)
-!---------------------------------------------------------------------
-type, public :: rad_type
-
-    !...albedos
-    real(r8) :: albedo_visb   ! albedo, visible beam (-)
-    real(r8) :: albedo_visd   ! albedo, visible diffuse (-)
-    real(r8) :: albedo_nirb   ! albedo, nir beam (-)
-    real(r8) :: albedo_nird   ! albedo, nir diffuse (-)
-
-     !...radiation variables
-    real(r8) :: radfacc(2,2)  ! canopy radiation absorption factors (-)
-            !   (1,1) - visible, beam
-            !   (1,2) - visible, diffuse
-            !   (2,1) - nir, beam
-            !   (2,2) - nir, diffuse
-    real(r8) :: radfacg(2,2)  ! ground radiation absorption factors (-)
-            !   (1,1) - visible, beam
-            !   (1,2) - visible, diffuse
-            !   (2,1) - nir, beam
-            !   (2,2) - nir, diffuse
-
-    real(r8) :: radc3c    ! absorbed radiation by canopy (W/m2)
-    real(r8) :: radc3g    ! absorbed radiation by ground (W/m2)
-    real(r8) :: radtc     ! canopy net radiation (W/m2)
-    real(r8) :: radtg     ! ground net radiation (W/m2)
-    real(r8) :: radts     ! snow net radiation (W/m2)
-    real(r8) :: effgc     ! effective ground cover for thermal radiation (-)
-
-    !...temperatures
-    real(r8) :: tsfc      ! surface temperature (K)
-
-end type rad_type
-
-
-!-------------------------------------------------
-! Fluorescence (SIF) Variables (CAN; CAS; PFT)
-!-------------------------------------------------
-type, public :: sif_type
-
-     !...electron transports
-     real(r8) :: sif_je    !electron transport
-     real(r8) :: sif_jo    !max electron transport
-     real(r8) :: sif_jejo  !fractional transport (je/jo)
-
-     !...k coefficients, defined as the probability of
-     !.....excitons to follow certain pathways (-)
-     real(r8) :: sif_kd    !Heat dissipation
-     real(r8) :: sif_kn    !Non-photochemical quenching (NPQ)
-     real(r8) :: sif_kp    !Photosynthesis
-
-     !...x factor (0 when GPP=potential, 1 when GPP=0)
-     real(r8) :: sif_x
-
-     !...yields (-)
-     real(r8) :: phi_d  !Heat dissipation yield
-     real(r8) :: phi_f  !SIF yield
-     real(r8) :: phi_n  !NPQ yield
-     real(r8) :: phi_p  !Photosynthetic yield
-
-     !...resulting sif values
-     real(r8) :: sif  !fluorescence (W m-2 sr-1 nm-1)
-
-end type sif_type
-
-
-!---------------------------------------------------------------------
-! Soil/Snow Column Variables (Soil)
-!---------------------------------------------------------------------
-type, public :: sscol_type
-
-     !...prognostic number of snow layers (negative)
-     integer(byte) :: nsl
-
-     !...soil diagnostics for soil column (nsoil)
-     real(r8), dimension(:), allocatable :: &
-         rootr,     & !effective rooting frac for soil hydrology (-)
-         satfrac_lay  !fraction of water saturation (-)
-
-     !...snow/soil diagnostic column variables
-     real(r8), dimension(:), allocatable :: & !(-nsnow+1:nsoil)
-         eff_poros, & ! soil/snow liquid effective porosity (-)
-         layer_z,   & ! soil/snow layer interface depth (m)
-         node_z,    & ! soil/snow layer node depth (m)
-         shcap,     & ! soil/snow total heat capacity (J/m2/K)
-         slamda,    & ! soil/snow heat flux term (W/m2/K)
-         tksoil,    & ! soil/snow thermal conductivity (W/m/K)
-         vol_liq,   & ! soil/snow liquid water volume (kg/m3)
-         vol_ice      ! soil/snow ice volume (kg/m3)
-
-     !...snow/soil prognostic column variables
-     real(r8), dimension(:), allocatable :: & !(-nsnow+1:nsoil)
-         dz, &      ! soil/snow layer thickness (m)
-         td, &      ! soil/snow temperature (K)
-         www_liq, & ! soil/snow liquid water (kg/m2)
-         www_ice    ! soil/snow ice (kg/m2)
-
-end type sscol_type
-
-
-!-------------------------------------------------
-! Vegetation Description and State Variables (PFT)
-!-------------------------------------------------
-type, public :: veg_type
-
-     !...land-atmos interactions
-     real(r8) :: z0       ! canopy snow-adjusted roughness length (m)
-     real(r8) :: z0d      ! canopy roughness length (m)
-     real(r8) :: zp_dispd ! zero-plane displacement (m)
-     real(r8) :: zpd_adj  ! snow-adjusted zero-plane displacement (m)
-     real(r8) :: zztemp   ! temperature height for mass flux (m)
-     real(r8) :: zzwind   ! wind height for mass flux (m)
-
-     !...resistances
-     real(r8) :: cc1      ! bulk pbl resistance coefficient (sqrt(s/m))
-     real(r8) :: cc2      ! ground to canopy air space resistance (-)
-
-     !...root profile
-     real(r8), dimension(:), allocatable :: &  !(nsoil)
-          rootf  ! root fraction (-)
-
-     !...vegetation state
-     real(r8) :: fpar     ! absorbed fraction of PAR (-)
-     real(r8) :: green    ! green fraction of LAI (-)
-     real(r8) :: lai      ! leaf area index (-)
-     real(r8) :: lait     ! canopy total leaf area index (w/ dead, -)
-     real(r8) :: vcover   ! fraction of vegetation cover (-)
-
-     !...vegetation properties
-     real(r8) :: gmudmu   ! time-mean leaf projection (-)
-     real(r8) :: park     ! solar absorption factor /
-                          !      extinction coefficient for PAR (-)
-     real(r8) :: vmax     ! rubisco velocity (mol/m2/s)
-
-     !...climatological vegetation states
-     real(r8) :: clim_lai  ! climatological LAI (-)
-
-end type veg_type
-
-
-!=================================================
-! Driver Data Variables
-!------------------------------------------------------------------
-! Grid Cell Diagnostic Variables
-! -----------------------------------------------------------------
-type, public :: gdiag_type
-
-     !...daytime/sunlight properties
-     real(r8) :: cosz     ! cosine of solar zenith angle (-)
-     real(r8) :: daylen   ! length of daylight (hrs)
-     real(r8) :: daylendt ! change in length of day (hrs)
-
-     !...misc driver forcings
-     real(r8) :: tmdf   ! daily (24-hr running mean) temperature (F)
-     real(r8) :: thm    ! mixed layer potential temperature (K)
-     real(r8) :: bps(2) ! (ps/1000)**kapa - turns theta into temp
-     real(r8) :: em     ! mixed layer water vapor pressure (hPa or mb)
-     real(r8) :: ros    ! surface air density (kg/m3)
-     real(r8) :: psy    ! psycrometric constant (gamma) (hPa/K)
-
-    !...precipitation properties
-    real(r8) :: seas_precippot ! seasonal precipitation potential (-)
-
-    !...radiation properties
-    real(r8) :: radvbc    ! visible beam radiation (W/m2)
-    real(r8) :: radvdc    ! visible diffuse radiation (W/m2)
-    real(r8) :: radnbc    ! nir beam radiation (W/m2)
-    real(r8) :: radndc    ! nir diffuse radiation (W/m2)
-
-    real(r8) :: toa_solar   ! Top-of-Atmosphere insolation (W/m2)
-    real(r8) :: toa_radvbc  ! TOA visible beam radiation (W/m2)
-    real(r8) :: toa_radvdc  ! TOA visible diffuse radiation (W/m2)
-    real(r8) :: toa_radnbc  ! TOA near-infrared (NIR) beam radiation (W/m2)
-    real(r8) :: toa_radndc  ! TOA NIR diffuse radiation (W/m2)
-
-    real(r8) :: toa_par   ! TOA PAR (mol/m2/s)
-    real(r8) :: aod       ! aerosol + cloud optical depth (-)
-
-    !...solar-induced fluorescence (SIF) properties
-    real(r8) :: sif_atten ! SIF attenuation factor (-)
-    logical, dimension(2) :: sif_flag  !conditions suitable for
-                                       !1=GOME2 2=OCO2?
-
-    !...spinup variables
-    logical :: gridcell_spunup
-
-end type gdiag_type
-
-!------------------------------------------------------------------
-! Grid Cell Prognostic Variables
-! -----------------------------------------------------------------
-type, public :: gprog_type
-
-    !...prognostic driver data/forcings
-    real(r8) :: cupr      ! cumulus precipitation rate (mm/s)
-    real(r8) :: cuprt     ! cumulus precip rate (m/s)
-    real(r8) :: cupr1     ! cumulus precipitation rate (mm/s)
-    real(r8) :: cupr2     ! cumulus precipitation rate (mm/s)
-    real(r8) :: dlwbot    ! surface incident longwave
-    real(r8) :: dlwbot1   ! surface incident longwave
-    real(r8) :: dlwbot2   ! surface incident longwave
-    real(r8) :: lspr      ! stratiform precipitation rate (mm/s)
-    real(r8) :: lsprt     ! stratiform precip rate (m/s)
-    real(r8) :: lspr1     ! stratiform precipitation rate (mm/s)
-    real(r8) :: lspr2     ! stratiform precipitation rate (mm/s)
-    real(r8) :: ps        ! surface pressure (hPa or mb)
-    real(r8) :: ps1       ! surface pressure (hPa or mb)
-    real(r8) :: ps2       ! surface pressure (hPa or mb)
-    real(r8) :: sh        ! mixed layer water vapor mixing ratio (kg/kg)
-    real(r8) :: sh1       ! mixed layer water vapor mixing ratio (kg/kg)
-    real(r8) :: sh2       ! mixed layer water vapor mixing ratio (kg/kg)
-    real(r8) :: spdm      ! wind speed (m/s)
-    real(r8) :: spdm1     ! wind speed (m/s)
-    real(r8) :: spdm2     ! wind speed (m/s)
-    real(r8) :: sw_dwn    ! surface incident shortwave radiation (W/m2)
-    real(r8) :: sw_dwn1   ! surface incident shortwave radiation (W/m2)
-    real(r8) :: sw_dwn2   ! surface incident shortwave radiation (W/m2)
-    real(r8) :: tm        ! mixed layer temperature (K)
-    real(r8) :: tm1       ! mixed layer temperature (K)
-    real(r8) :: tm2       ! mixed layer temperature (K)
-
-    !...fire emissions
-    real(r8) :: firec     ! C loss from fire (mol C/m2/s)
-    real(r8) :: firec1    ! C loss from fire (mol C/m2/s)
-    real(r8) :: firec2    ! C loss from fire (mol C/m2/s)
-    real(r8) :: fireco2   ! CO2 respiration from fire (mol C/m2/s)
-    real(r8) :: fireco21  ! CO2 respiration from fire (mol C/m2/s)
-    real(r8) :: fireco22  ! CO2 respiration from fire (mol C/m2/s)
-
-    !...carbon cycle
-    real(r8) :: pco2m     ! Mixed Layer (background) CO2 partial pressure (Pa)
-    real(r8) :: pcosm     ! Mixed Layer (background) COS partial pressure (Pa)
-
-    !...daily values
-    real(r8) :: tmd    ! daily (24-hr running mean) temperature (K)
-
-    !...seasonal values
-    real(r8) :: seas_precip !seasonal precipitation (mm/day)
-    real(r8) :: seas_tm     !seasonal temperature (K)
-
-    !...climatological values
-    real(r8) :: clim_cupr   ! clim-mean convective precipitation (mm/day)
-    real(r8) :: clim_precip ! clim-mean precipitation (mm/day)
-    real(r8) :: clim_tm     ! clim-mean temperature (K)
-
-    !...tm5 COS values
-    real(r8) :: cosm_tm5      ! COS mixing ratio (molCOS/molAir)
-    real(r8) :: cosm_tm51     ! COS mixing ratio (molCOS/molAir)
-    real(r8) :: cosm_tm52     ! COS mixing ratio (molCOS/molAir)
-
-end type gprog_type
-
-
-!******************************************************************
-!------------------------------------------------------------------
-! Begin definition of spatial scaling hierarchy
-!------------------------------------------------------------------
-
-!------------
-! define the land unit structure
-! includes corresponding:
-!    - soil column (Soil)
-!    - vegetation (PFT)
-!    - canopy (CAN) and canopy air space (CAS)
-!------------
-type, public :: lu_type
-
-    ! vegetation information
-    integer(i4) :: ipft   !pft reference number
-    real(r4)    :: larea  !fraction of coverage per gridcell (0-1)
-
-    ! time-invariant variables
-    type(soil_type) :: soilt   !soil properties
-
-    ! time-variant variables
-    type(cas_type)     :: cast      !canopy air space variables (CAS)
-    type(co2_type)     :: co2t      !photosynthetic/CO2 variables
-    type(cos_type)     :: cost      !carbonyl sulfide variables
-    type(equibd_type)  :: equibdt   !dead pool equilibrium variables (Soil)
-    type(equibl_type)  :: equiblt   !live pool equilibrium variables (PFT)
-    type(flux_type)    :: fluxt     !flux variables
-    type(hydros_type)  :: hydrost   !soil hydrological variables (Soil)
-    type(hydrov_type)  :: hydrovt   !veg hydrological variables (PFT)
-    type(phen_type)    :: phent     !phenology variables (PFT)
-    type(poold_type)   :: pooldt    !dead pool variables (Soil)
-    type(pooll_type)   :: poollt    !live pool variables (PFT)
-    type(rad_type)     :: radt      !radiation variables
-    type(sif_type)     :: sift      !fluorescence variables
-    type(sscol_type)   :: sscolt    !soil/snow column variables (Soil)
-    type(veg_type)     :: vegt      !vegetation information (PFT)
-
-end type lu_type
-
-!------------
-! define the gridcell structure
-!------------
-type, public :: gridcell_type
-
-    ! gridcell information
-    real(r8) :: lat         !latitude (degrees)
-    real(r8) :: lon         !longitude (degrees)
-
-    ! variables defined at the gridcell level
-    type(gdiag_type) :: gdiagt !diagnostic variables
-    type(gprog_type) :: gprogt !prognostic variables
-
-    ! gridcell -> landunit hierarchy
-    integer(i4) :: g_nlu !number of land units per gridcell
-                         !...includes corresponding
-                         !....soil, veg (PFT), and canopy
-
-    type(lu_type), dimension(:), allocatable :: &
-          l  !land unit data structure
-
-end type gridcell_type
-
-!-----------
-! define the top-level structure
-!-----------
-type, public :: sib_t
-   type(gridcell_type),  dimension(:), allocatable :: &
-          g  !gridcell data structure
-end type sib_t
-
-!------------------------------------------------------------------
-! End definition of spatial scaling hierarchy
-!------------------------------------------------------------------
-!******************************************************************
-
-!***********************************************************************
-!-----------------------------------------------------------------------
-! Declare single instance of sibtype
-    type(sib_t) :: sib
-!-----------------------------------------------------------------------
-
-end module module_sib
-
-"""
+        self.lupft_spunup = None  # (logical)
+
+
+# -------------------------------------------------
+# Live Pool Equilibrium Variables (PFT)
+# -------------------------------------------------
+class EquiblType:
+    def __init__(self):
+        # ...prognostic pool variables for equilibrium calculation
+
+        self.poolpfttotgain = None  # sum of pool gains (mol/m2, size = npoolpft)
+        self.poolpfttotloss = None  # sum of pool losses (mol/m2, size = npoolpft)
+
+        # ...equilibrium variables for individual pools
+
+        self.poolpftinit = None  # initial pools (mol C/m2, size = npoolpft)
+        self.poolpftend = None  # ending pools (mol C/m2, size = npoolpft)
+        self.poolpftmin = None  # minimum pool value (mol C/m2, size = npoolpft)
+        self.poolpftmax = None  # maximum pool value (mol C/m2, size = npoolpft)
+        self.poolpftgain = None  # net gain (mol C/m2), size = npoolpft
+        self.poolpftloss = None  # net loss (mol C/m2, size = npoolpft)
+        self.poolpftratio = None  # ratio of input/output (-, size = npoolpft)
+        self.poolpftequib = None  # equilibrium pools (mol C/m2, size = npoolpft)
+
+        self.poolpftnotdone = None  # flag for if live pools are spunup (logical, size = npoolpft)
+
+        # ...equilibrium variables for live pool sums
+        # .....leaf + root + wood + prod
+        self.live_init = None  # initial live pool total (mol C/m2)
+        self.live_end = None  # ending live pool total (mol C/m2)
+        self.live_gain = None  # live pool net gain (mol C/m2)
+        self.live_loss = None  # live pool net loss (mol C/m2)
+        self.live_ratio = None  # gain/loss ratio (-)
+        self.live_notdone = None  # flag for if live pools are spunup (logical)
+
+
+# ---------------------------------------------------------------------
+# Flux Variables (CAN; CAS; PFT)
+# ---------------------------------------------------------------------
+class FluxType:
+    def __init__(self):
+        # ...land-atmosphere exchange info
+        self.ct = None  # thermal transfer coefficient (-)
+        self.cu = None  # momentum transfer coefficient (-)
+        self.drag = None  # drag (kg/m2/s)
+        self.ustar = None  # friction velocity (m/s)
+        self.ventmf = None  # ventilation mass flux (kg/m2/s)
+
+        # #...latent heat flux
+        self.ec = None  # canopy latent heat flux (J/m2)
+        self.eci = None  # latent heat flux, canopy interception (puddles) (J/m2)
+        self.ect = None  # latent heat flux, canopy transpiration (J/m2)
+        self.eg = None  # ground latent heat flux (J/m2)
+        self.egi = None  # latent heat flux, ground interception (puddles) (J/m2)
+        self.egs = None  # latent heat flux, ground evaporation (J/m2)
+        self.egsmax = None  # maximum ground evapotration per timestep (J/m2)
+        self.es = None  # snow latent heat flux (J/m2)
+        self.fws = None  # CAS-BL latent heat flux (W/m2)
+
+        # ...sensible heat flux
+        self.hc = None  # canopy sensible heat flux (J/m2)
+        self.hg = None  # ground sensible heat flux (J/m2)
+        self.hs = None  # snow sensible heat flux (J/m2)
+        self.fss = None  # CAS-BL sensible heat flux (W/m2)
+
+        # ...storage heat flux
+        self.storhc = None  # canopy heat storage flux (W/m2)
+        self.storhg = None  # ground heat storage flux (W/m2)
+
+        # ...resistances
+        self.ra = None  # canopy air space - mixed layer resistance (s/m)
+        self.rb = None  # canopy to canopy air space resistance (s/m)
+        self.rbc = None  # canopy to canopy air space resistance
+        #    adjusted for snow (-)
+        self.rc = None  # bulk leaf to canopy resistance (s/m)
+        self.rd = None  # ground to canopy air space resistance (s/m)
+        self.rdc = None  # ground to canopy air space resistance
+        #    adjusted for snow (-)
+        self.rds = None  # ground and soil resistance (s/m)
+
+        # ...balance checks
+        self.ebalnum = None  # energy balance
+        self.wbalnum = None  # water balance
+
+
+# ---------------------------------------------------------------------
+# Soil Hydrology Variables (Soil)
+# ---------------------------------------------------------------------
+class HydrosType:
+    def __init__(self):
+        # ...environmental variables
+        self.rhsoil = None  # soil surface relative humidity (-)
+        self.rsoil = None  # soil surface resistance
+        #  (due to surface tension, s/m)
+
+        # ...evapotranspiration
+        self.ecmass = None  # canopy evapotranspiration (kg/m2 or mm water)
+        self.egmass = None  # ground evaporation (kg/m2 or mm water)
+
+        # ...precipitation
+        self.infil = None  # water infiltrated into top soil layer (mm)
+        self.p0 = None  # ground surface precip (mm)
+        self.pcpg_rain = None  # ground surface rain precip (mm/s)
+        self.pcpg_snow = None  # ground surface snow precip (mm/s)
+
+        # ...runoff
+        self.roff = None  # total subsurface runoff from soil layers (mm)
+        self.roffo = None  # overland runoff (mm)
+
+        # ...snow
+        self.snow_gdepth = None  # depth of snow on ground (m)
+        self.snow_gmass = None  # mass of snow on ground (kg/m2)
+        self.snow_gvfc = None  # snow ground cover fraction (0-1)
+        #   (formerly areas)
+
+        # ...soil diagnostics
+        self.www_tot = None  # total soil water-all layers, water+ice (kg/m2)
+        self.www_inflow = None  # water inflow at ground surface (kg/m2/s)
+        self.satfrac = None  # total fraction of water saturation in soil column (-)
+
+        # ...water interception
+        self.capacc_liq = None  # prognostic canopy surface liquid (kg/m2)
+        self.capacc_snow = None  # prognostic canopy surface snow (kg/m2)
+        #   (formerly snow_veg)
+        self.capacg = None  # prognostic ground surface liquid (kg/m2)
+        self.satcapc = None  # canopy wetness storage limit (kg/m2)
+        self.satcapg = None  # ground wetness storage limit (kg/m2)
+
+        self.snow_cvfc = None  # snow vertical cover fraction (-)
+        #   (formerly canex=1-snow_cvfc)
+        self.wetfracc = None  # canopy wetness fraction (-)
+        self.wetfracg = None  # ground wetness fraction (-)
+
+
+# -------------------------------------------------
+# Vegetation-Specific Hydrology Variables (PFT)
+# -------------------------------------------------
+class HydrovType:
+    def __init__(self):
+        # ...rooting zone information
+        # ......Plant Available Water (PAW; liquid only)
+        self.paw_lay = None # PAW per soil layer (kg/m3, size = nsoil)
+        self.pawmax_lay = None  # PAW maximum per soil layer (kg/m3, size = nsoil)
+        self.pawfrac_lay = None  # PAW fraction per soil layer (-, size = nsoil)
+        self.pawfrw = None  # Root-weighted PAW fraction in soil column (kg/m2)
+        self.pawftop = None  # Mean PAW fraction in top 3 soil layers (-)
+        self.pawfzw = None # Soil-layer depth-weighted PAW fraction (kg/m2)
+
+        # ......Total Available Water (TAW; liquid + ice)
+        self.taw_lay = None  # TAW per soil layer (kg/m3, size = nsoil?)
+        self.tawfrac_lay = None  # TAW fraction per soil layer (-, size = nsoil?)
+        self.tawfrw = None  # Root-weighted TAW in soil column (kg/m2)
+        self.tawftop = None  # Mean TAW fraction in top 3 soil layers (-)
+        self.tawfzw = None  # Soil-layer depth weighted TAW fraction (kg/m2)
+
+        # .....Climatological Water Availability
+        self.clim_pawfrw = None  # climatological root-weighted PAW fraction (-)
+        self.clim_tawfrw = None  # climatological root-weighted TAW fraction (-)
+
+
+# -----------------------------------------------------
+# Phenology Variables (PFT)
+# -----------------------------------------------------
+class PhenType:
+    def __init__(self):
+        # ...growing season start determinants
+        self.phenave_assim = None  # Running-Mean Assimilation (mol C/m2/s)
+        self.phenave_assimsm = None  # Seasonal Maximum Mean Assimilation (mol C/m2/s)
+        self.phenave_assimpot = None  # Mean Assimilation Potential (-)
+        self.phenflag_assimlow = None  # Assimilation Flag For Growing Season Reset (logical)
+
+        self.phenave_pr = None  # Seasonal Mean Precipitation (mm/day)
+        self.phenave_prsm = None  # Seasonal Maximum Mean Precipitation (mm/day)
+        self.phenave_prsdoy = None  # Seasonal Day of Maximum Precip (doy)
+        self.phenave_prcdoy = None  # Climatological Mean Day of Max Precip (doy)
+        self.phenave_prpot = None  # Seasonal Precipitation Potential (-)
+        self.phenflag_precip = None  # Precipitation Flag for Growing Season Start (logical)
+
+        self.phenave_tawftop = None  # Running-Mean TAW in Top 3 Soil Layers (-)
+        self.phenflag_moist = None  # Moisture Flag for Growing Season Start (logical)
+
+        self.phenave_tm = None  # Running-Mean Temperature (K)
+        self.phenflag_temp = None  # Temperature Flag for Growing Season Start (logical)
+
+        self.phenflag_daylen = None  # Daylength Flag for Growing Season Start (logical)
+        self.phenflag_gsspass = None  # Combined Growing Season Start Flag (logical)
+
+        # ...growing season information
+        self.nd_dormant = None  ## of days dormant
+        self.nd_gs = None  ## of days of growing season
+        self.nd_stg = None  ## of days per stage (size = npstg-1)
+
+        # ...phenology stage
+        self.phen_istage = None  # Phenology Stage (1-5)
+        self.phen_pi = None  # Phenology Stage Index
+
+        # ...dynamic phenology stage variables
+        self.phens_dayl = None  # Phenology Stage Daylength Potential
+
+        self.phenc_climp = None  # Climatological Suitability (-)
+        self.phenc_laimax = None  # Max Potential LAI (m2/m2)
+        self.phenc_laimin = None  # Min Potential LAI (m2/m2)
+        self.phens_grw = None  # Phenology Stage Growth Potential
+
+        self.phenave_env = None  # Environmental Conditions Potential
+        self.phenave_wa = None  # Water Availability Potential
+        self.phenave_wac = None  # Combined Environmental and Water Potential
+        self.phenave_wacsm = None  # Seasonal Maximum Combined Potential
+        self.phens_wx = None  # Phenology Stage Weather Potential
+
+        # ...defined phenology stage variables
+        self.ipd = None  # planting date (doy)
+        self.dapd = None  # days after planting date (days)
+        self.dapdaf = None  # days after planting above freezing (days)
+        self.gdd = None  # growing degree days (-)
+        self.seed_pool = None  # seed pool carbon (mol C/m2)
+
+
+# ---------------------------------------------------------------------
+# Dead Pool Variables (Soil)
+# ---------------------------------------------------------------------
+class PooldType:
+    def __init__(self):
+        # ====Dead Pool Gains (per timestep)====#
+
+        # -------------
+        # Grazing Gains (per soil layer)
+        self.gain_grz_lay = None  # gain from grazing (mol C/m2/s, size = npoollu,nsoil)
+
+        # --------------
+        # Harvest Gains (per soil layer)
+        self.gain_hrvst_lay = None  # gain from harvest (mol C/m2/s, size = npoollu,nsoil)
+
+        # -------------------------
+        # Live Pool Transfer Gains (per soil layer)
+        self.gain_transl_lay = None  # gain from live pools (mol C/m2/s, size = npoollu,nsoil)
+
+        # -------------------------
+        # Dead Pool Transfer Gains (per soil layer)
+        self.gain_transd_lay = None  # gain from dead pools (mol C/m2/s, size = npoollu,nsoil)
+
+        # ====Dead Pool Losses (per timestep)====#
+        # ---------------------------------------
+
+        # Fire Loss
+        self.loss_fire_lay = None  # loss from fire (mol C/m2/s, size = npoollu,nsoil)
+
+        # Heterotrophic Respiration/Transfer Loss
+
+        # ...surface pools
+        self.mhrt_sfc_assim = None  # surface assimilation scalar (-)
+        self.mhrt_sfc_freeze = None  # surface cold/freezing scalar (-)
+        self.mhrt_sfc_hot = None  # surface high temperature scalar (-)
+        self.mhrt_sfc_precip = None  # surface precip scaling factor (-)
+        self.mhrt_sfc_scale = None  # surface respiration scaling coefficient (-)
+
+        # ...soil pools per soil layer
+        self.mhrt_soil_freeze_lay = None  # freeze inhibition scalar (-, size = nsoil)
+        self.mhrt_soil_hot_lay = None  # high temperature scalar (-, size = nsoil)
+        self.mhrt_soil_moist_lay = None  # soil moisture scalar (-, size = nsoil)
+        self.mhrt_soil_pawf_lay = None  # PAW fraction scalar (-, size = nsoil)
+        self.mhrt_soil_scale_lay = None  # combined soil scalar (-, size = nsoil)
+
+        # ...soil scalars root-weighted
+        self.mhrt_soil_assim = None  # assimilation scalar (-)
+        self.mhrt_soil_freeze = None  # freeze inhibition scalar (-)
+        self.mhrt_soil_hot = None  # high temperature scalar (-)
+        self.mhrt_soil_moist = None  # soil moisture scaling factor (-)
+        self.mhrt_soil_pawfrw = None  # soil pawfrw scalar (-)
+        self.mhrt_soil_precip = None  # soil precipitation scalar (-)
+        self.mhrt_soil_scale = None  # combined soil scalar (-)
+
+        # ...respiration and transfer information per soil layer
+        self.kratert_lay = None  # scaled decay rate (1/s, size = npoollu,nsoil)
+        self.loss_resp_lay = None  # loss from respiration (mol C/m2/s, size = npoollu,nsoil)
+        self.loss_trans_lay = None  # loss from decay transfers (mol C/m2/s, size = npoollu,nsoil)
+
+        # ...combined respiration rates
+        self.resp_het = None  # heterotrophic respiration (mol C/m2/s)
+        self.resp_soil = None  # soil respiration (mol C/m2/s)
+        self.resp_soil_lay = None  # (size = nsoil)
+        self.resp_soilnr = None  # soil respiration w/o roots (mol C/m2/s)
+        self.resp_soilnr_lay = None  # (size = nsoil)
+
+        # ------------------------
+        # Daily net pool change (per soil layer)
+        self.poollu_dgain = None  # pool gain (mol C/m2/day, size = npoollu,nsoil)
+        self.poollu_dloss = None  # pool loss (mol C/m2/day, size = npoollu,nsoil)
+
+        # ------------------------
+        # Prognostic Carbon Pools
+        self.poollu = None  # vertically integrated pool size (mol C/m2, size = npoollu)
+        self.poollu_lay = None  # prognostic dead carbon pools (mol C/m2, size = npoollu,nsoil)
+        self.poollu_flay = None  # fraction of carbon per soil layer (-, size = npoollu,nsoil)
+
+        # ---------------
+        # Carbon Balance
+        self.poollup = None  # previous carbon pool (mol C/m2, size = npoollu)
+
+
+# -------------------------------------------------
+# Live Pool Variables (PFT)
+# -------------------------------------------------
+class PoollType:
+    # ====Live Pool Gains (lpg, per timestep)====#
+    def __init__(self):
+        # Autotrophic Respiration
+        # ....Growth.....
+        self.loss_gresp = None  # loss from growth resp (mol C/m2/s, size = npoolpft)
+
+        # .....Maintenance.....
+        # ...canopy respiration scaling coefficients
+        self.mcr_assim = None  # canopy assimilation scalar
+        self.mcr_freeze = None  # canopy freeze inhibition
+        self.mcr_hot = None  # canopy high temperature exponential
+        self.mcr_scale = None  # combined canopy respiration scalar
+
+        # ...root respiration scaling coefficients
+        self.mrr_freeze_lay = None  # roots freeze inhibition scalar (size = per soil layer)
+        self.mrr_hot_lay = None  # roots high temperature exponential (size = per soil layer)
+        self.mrr_scale_lay = None  # combined roots scalar (size = per soil layer)
+
+        self.mrr_assim = None  # assimilation (root-weighted)
+        self.mrr_freeze = None  # freeze inhibition (root-weighted)
+        self.mrr_hot = None  # high temperature (root-weighted)
+        self.mrr_lai = None  # leaf support (root-weighted)
+        self.mrr_scale = None  # combined root-weighted scalar for respiration (root-weighted)
+
+        # Seed (Transfer) Gains
+        self.gain_seed = None  # gain from seed (mol C/m2/s, size = npoolpft)
+
+        # ...maintenance respiration information per soil layer
+        self.krater_lay = None  # (scaled maintainance loss rate (1/s), size=npoolpft,nsoil)
+        self.loss_mresp_lay = None  # (loss from maintainence (mol C/m2/s), size=npoolpft,nsoil)
+
+        # .....Combined Respiration Rates.....
+        self.resp_auto = None  # autotrophic respiration (mol C/m2/s)
+        self.resp_grow = None  # growth respiration (mol C/m2/s)
+        self.resp_leaf = None  # leaf respiration (mol C/m2/s)
+        self.resp_mntn = None  # maintainence respiration (mol C/m2/s)
+        self.resp_nveg = None  # non-vegetation respiration (mol C/m2/s)
+        self.resp_root = None  # root respiration (mol C/m2/s)
+
+        # Live-To-Dead Transfer
+        # .....transfers use fractions of the pool that is transferring
+        # .....transfer = fraction * pool_size
+
+        # ...leaf transfer (fractions per day)
+        self.tfl_daylen = None  # shortening daylength
+        self.tfl_freeze = None  # freezing
+        self.tfl_dry = None  # water deficiency
+        self.tfl_pstage = None  # phenology stage
+        self.tfl_total = None  # total leaf transfer
+
+        # .....turnover transfer
+        self.tf_turnover = None  # (fractions per day, size = npoolpft)
+
+        # ...transfer loss information (per soil layer)
+        self.loss_trans_lay = None  # (loss to dead pool transfers (mol C/m2/s),size= npoolpft,nsoil)
+
+        # Fire Loss
+        self.nd_fire = None  ## of days burned
+        self.resp_fire = None  # fire respiration (mol C/m2/s)
+        self.rmmd_fire = None  # fire emitted but not removed due to fire dataset and SiB4 mismatch (mol C/m2/s)
+        self.loss_fire_lay = None  # (loss from fire (mol C/m2/s),size = npoolpft,nsoil)
+
+        # Grazing Loss
+        self.nd_grz = None  ## of days grazed
+        self.resp_grz = None  # grazing respiration (mol C/m2/s)
+        self.loss_grz = None  # loss from grazing (mol C/m2/s, size= npoolcan)
+
+        # Harvest Loss
+        self.loss_hrvst_lay = None  # loss from harvest per soil layer (mol C/m2/s, size=npoolpft,nsoil)
+        self.resp_hrvst = None  # C harvest respiration (mol C/m2/s)
+        self.rmvd_hrvst = None  # C harvested and removed (mol C/m2)
+
+        # Daily net pool change (per soil layer)
+        self.poolpft_dgain = None  # pool gain (mol C/m2/day,size=npoolpft,nsoil)
+        self.poolpft_dloss = None  # pool loss (mol C/m2/day,size=npoolpft,nsoil)
+
+        # Prognostic Carbon Pools
+        self.poolpft = None  # vertically integrated pool size (mol C/m2, size = npoolpft)
+        self.poolpft_lay = None  # prognostic carbon pools (mol C/m2, size = npoolpft,nsoil)
+        self.poolpft_flay = None  # fraction of carbon per soil layer (-, size = npoolpft,nsoil)
+
+        # Carbon Balance
+        self.poolpftp = None  # previous carbon pool (mol C/m2, size = npoolpft)
+
+
+# ---------------------------------------------------------------------
+# Radiation Variables (CAN, CAS, Soil)
+# ---------------------------------------------------------------------
+class RadType:
+
+    def __init__(self):
+        # ...albedos
+        self.albedo_visb = None  # albedo, visible beam (-)
+        self.albedo_visd = None  # albedo, visible diffuse (-)
+        self.albedo_nirb = None  # albedo, nir beam (-)
+        self.albedo_nird = None  # albedo, nir diffuse (-)
+
+        # ...radiation variables
+        self.radfacc = None  # canopy radiation absorption factors (-, size = 2,2 )
+        #   (1,1) - visible, beam
+        #   (1,2) - visible, diffuse
+        #   (2,1) - nir, beam
+        #   (2,2) - nir, diffuse
+        self.radfacg = None  # ground radiation absorption factors (-, size = 2,2)
+        #   (1,1) - visible, beam
+        #   (1,2) - visible, diffuse
+        #   (2,1) - nir, beam
+        #   (2,2) - nir, diffuse
+
+        self.radc3c = None  # absorbed radiation by canopy (W/m2)
+        self.radc3g = None  # absorbed radiation by ground (W/m2)
+        self.radtc = None  # canopy net radiation (W/m2)
+        self.radtg = None  # ground net radiation (W/m2)
+        self.radts = None  # snow net radiation (W/m2)
+        self.effgc = None  # effective ground cover for thermal radiation (-)
+
+        # ...temperatures
+        self.tsfc = None  # surface temperature (K)
+
+
+# ----------------------------------------------
+# Fluorescence (SIF) Variables (CAN; CAS; PFT)
+# ----------------------------------------------
+class SifType:
+
+    def __init__(self):
+        # ...electron transports
+        self.sif_je = None  # electron transport
+        self.sif_jo = None  # max electron transport
+        self.sif_jejo = None  # fractional transport (je/jo)
+
+        # ...k coefficients, defined as the probability of
+        # .....excitons to follow certain pathways (-)
+        self.sif_kd = None  # Heat dissipation
+        self.sif_kn = None  # Non-photochemical quenching (NPQ)
+        self.sif_kp = None  # Photosynthesis
+
+        # ...x factor (0 when GPP=potential, 1 when GPP=0)
+        self.sif_x = None
+
+        # ...yields (-)
+        self.phi_d = None  # Heat dissipation yield
+        self.phi_f = None  # SIF yield
+        self.phi_n = None  # NPQ yield
+        self.phi_p = None  # Photosynthetic yield
+
+        # ...resulting sif values
+        self.sif = None  # fluorescence (W m-2 sr-1 nm-1)
+
+
+# ---------------------------------------------------------------------
+# Soil/Snow Column Variables (Soil)
+# ---------------------------------------------------------------------
+class SScolType:
+    def __init__(self):
+        # ...prognostic number of snow layers (negative)
+        self.nsl = None
+
+        # ...soil diagnostics for soil column (nsoil)
+        self.rootr = None  # effective rooting frac for soil hydrology (-, size = nsoil)
+        self.satfrac_lay = None  # fraction of water saturation (-,size = nsoil)
+
+        # ...snow/soil diagnostic column variables
+        self.eff_poros = None  # soil/snow liquid effective porosity (-, size = -nsnow+1:nsoil)
+        self.layer_z = None  # soil/snow layer interface depth (m,size = -nsnow+1:nsoil)
+        self.node_z = None  # soil/snow layer node depth (m,size = -nsnow+1:nsoil)
+        self.shcap = None  # soil/snow total heat capacity (J/m2/K,size = -nsnow+1:nsoil)
+        self.slamda = None  # soil/snow heat flux term (W/m2/K,size = -nsnow+1:nsoil)
+        self.tksoil = None  # soil/snow thermal conductivity (W/m/K,size = -nsnow+1:nsoil)
+        self.vol_liq = None  # soil/snow liquid water volume (kg/m3,size = -nsnow+1:nsoil)
+        self.vol_ice = None  # soil/snow ice volume (kg/m3,size = -nsnow+1:nsoil)
+
+        # ...snow/soil prognostic column variables
+        self.dz = None  # soil/snow layer thickness (m,size = -nsnow+1:nsoil)
+        self.td = None  # soil/snow temperature (K,size = -nsnow+1:nsoil)
+        self.www_liq = None  # soil/snow liquid water (kg/m2,size = -nsnow+1:nsoil)
+        self.www_ice = None  # soil/snow ice (kg/m2,size = -nsnow+1:nsoil)
+
+
+# -------------------------------------------------
+# Vegetation Description and State Variables (PFT)
+# -------------------------------------------------
+class VegType:
+    def __init__(self):
+        # ...land-atmos interactions
+        self.z0 = None  # canopy snow-adjusted roughness length (m)
+        self.z0d = None  # canopy roughness length (m)
+        self.zp_dispd = None  # zero-plane displacement (m)
+        self.zpd_adj = None  # snow-adjusted zero-plane displacement (m)
+        self.zztemp = None  # temperature height for mass flux (m)
+        self.zzwind = None  # wind height for mass flux (m)
+
+        # ...resistances
+        self.cc1 = None  # bulk pbl resistance coefficient (sqrt(s/m))
+        self.cc2 = None  # ground to canopy airspace resistance (-)
+
+        # ...root profile
+        self.rootf = None  # root fraction (-,size = nsoil)
+
+        # ...vegetation state
+        self.fpar = None  # absorbed fraction of PAR (-)
+        self.green = None  # green fraction of LAI (-)
+        self.lai = None  # leaf area index (-)
+        self.lait = None  # canopy total leaf area index (w/ dead, -)
+        self.vcover = None  # fraction of vegetation cover (-)
+
+        # ...vegetation properties
+        self.gmudmu = None  # time-mean leaf projection (-)
+        self.park = None  # solar absorption factor /
+        #      extinction coefficient for PAR (-)
+        self.vmax = None  # rubisco velocity (mol/m2/s)
+
+        # ...climatological vegetation states
+        self.clim_lai = None  # climatological LAI (-)
+
+
+# =================================================
+# Driver Data Variables
+# ------------------------------------------------------------------
+# Grid Cell Diagnostic Variables
+# -----------------------------------------------------------------
+
+class GDiagType:
+    def __init__(self):
+        # ...daytime/sunlight properties
+        self.cosz = None  # cosine of solar zenith angle (-)
+        self.daylen = None  # length of daylight (hrs)
+        self.daylendt = None  # change in length of day (hrs)
+
+        # ...misc driver forcings
+        self.tmdf = None  # daily (24-hr running mean) temperature (F)
+        self.thm = None  # mixed layer potential temperature (K)
+        self.bps = None  # (ps/1000)**kapa - turns theta into temp (size = 2)
+        self.em = None  # mixed layer water vapor pressure (hPa or mb)
+        self.ros = None  # surface air density (kg/m3)
+        self.psy = None  # psycrometric constant (gamma) (hPa/K)
+
+        # ...precipitation properties
+        self.seas_precippot = None  # seasonal precipitation potential (-)
+
+        # ...radiation properties
+        self.radvbc = None  # visible beam radiation (W/m2)
+        self.radvdc = None  # visible diffuse radiation (W/m2)
+        self.radnbc = None  # nir beam radiation (W/m2)
+        self.radndc = None  # nir diffuse radiation (W/m2)
+
+        self.toa_solar = None  # Top-of-Atmosphere insolation (W/m2)
+        self.toa_radvbc = None  # TOA visible beam radiation (W/m2)
+        self.toa_radvdc = None  # TOA visible diffuse radiation (W/m2)
+        self.toa_radnbc = None  # TOA near-infrared (NIR) beam radiation (W/m2)
+        self.toa_radndc = None  # TOA NIR diffuse radiation (W/m2)
+
+        self.toa_par = None  # TOA PAR (mol/m2/s)
+        self.aod = None  # aerosol + cloud optical depth (-)
+
+        # ...solar-induced fluorescence (SIF) properties
+        self.sif_atten = None  # SIF attenuation factor (-)
+        self.sif_flag = None  # conditions suitable for
+        # 1=GOME2 2=OCO2 ? (size = 2, logical)
+
+        # ...spinup variables
+        self.gridcell_spunup = None  # (logical)
+
+
+# ------------------------------------------------------------------
+# Grid Cell Prognostic Variables
+# -----------------------------------------------------------------
+class GProgType:
+    def __init__(self):
+        # ...prognostic driver data/forcings
+        self.cupr = None  # cumulus precipitation rate (mm/s)
+        self.cuprt = None  # cumulus precip rate (m/s)
+        self.cupr1 = None  # cumulus precipitation rate (mm/s)
+        self.cupr2 = None  # cumulus precipitation rate (mm/s)
+        self.dlwbot = None  # surface incident longwave
+        self.dlwbot1 = None  # surface incident longwave
+        self.dlwbot2 = None  # surface incident longwave
+        self.lspr = None  # stratiform precipitation rate (mm/s)
+        self.lsprt = None  # stratiform precip rate (m/s)
+        self.lspr1 = None  # stratiform precipitation rate (mm/s)
+        self.lspr2 = None  # stratiform precipitation rate (mm/s)
+        self.ps = None  # surface pressure (hPa or mb)
+        self.ps1 = None  # surface pressure (hPa or mb)
+        self.ps2 = None  # surface pressure (hPa or mb)
+        self.sh = None  # mixed layer water vapor mixing ratio (kg/kg)
+        self.sh1 = None  # mixed layer water vapor mixing ratio (kg/kg)
+        self.sh2 = None  # mixed layer water vapor mixing ratio (kg/kg)
+        self.spdm = None  # wind speed (m/s)
+        self.spdm1 = None  # wind speed (m/s)
+        self.spdm2 = None  # wind speed (m/s)
+        self.sw_dwn = None  # surface incident shortwave radiation (W/m2)
+        self.sw_dwn1 = None  # surface incident shortwave radiation (W/m2)
+        self.sw_dwn2 = None  # surface incident shortwave radiation (W/m2)
+        self.tm = None  # mixed layer temperature (K)
+        self.tm1 = None  # mixed layer temperature (K)
+        self.tm2 = None  # mixed layer temperature (K)
+
+        # ...fire emissions
+        self.firec = None  # C loss from fire (mol C/m2/s)
+        self.firec1 = None  # C loss from fire (mol C/m2/s)
+        self.firec2 = None  # C loss from fire (mol C/m2/s)
+        self.fireco2 = None  # CO2 respiration from fire (mol C/m2/s)
+        self.fireco21 = None  # CO2 respiration from fire (mol C/m2/s)
+        self.fireco22 = None  # CO2 respiration from fire (mol C/m2/s)
+
+        # ...carbon cycle
+        self.pco2m = None  # Mixed Layer (background) CO2 partial pressure (Pa)
+        self.pcosm = None  # Mixed Layer (background) COS partial pressure (Pa)
+
+        # ...daily values
+        self.tmd = None  # daily (24-hr running mean) temperature (K)
+
+        # ...seasonal values
+        self.seas_precip = None  # seasonal precipitation (mm/day)
+        self.seas_tm = None  # seasonal temperature (K)
+
+        # ...climatological values
+        self.clim_cupr = None  # clim-mean convective precipitation (mm/day)
+        self.clim_precip = None  # clim-mean precipitation (mm/day)
+        self.clim_tm = None  # clim-mean temperature (K)
+
+        # ...tm5 COS values
+        self.cosm_tm5 = None  # COS mixing ratio (molCOS/molAir)
+        self.cosm_tm51 = None  # COS mixing ratio (molCOS/molAir)
+        self.cosm_tm52 = None  # COS mixing ratio (molCOS/molAir)
+
+
+# ******************************************************************
+# ------------------------------------------------------------------
+# Begin definition of spatial scaling hierarchy
+# ------------------------------------------------------------------
+
+# ------------
+# define the land unit structure
+# includes corresponding:
+#    - soil column (Soil)
+#    - vegetation (PFT)
+#    - canopy (CAN) and canopy air space (CAS)
+# ------------
+class LuType:
+    def __init__(self):
+        # vegetation information
+        self.ipft = None  # pft reference number (integer)
+        self.larea = None  # fraction of coverage per gridcell (0-1)
+
+        # time-invariant variables
+        self.soilt = SoilType()  # soil properties
+
+        # time-variant variables
+        self.cast = CasType()  # canopy air space variables (CAS)
+        self.co2t = Co2Type()  # photosynthetic/CO2 variables
+        self.cost = COSType()  # carbonyl sulfide variables
+        self.equibdt = EquibdType()  # dead pool equilibrium variables (Soil)
+        self.equiblt = EquiblType()  # live pool equilibrium variables (PFT)
+        self.fluxt = FluxType()  # flux variables
+        self.hydrost = HydrosType()  # soil hydrological variables (Soil)
+        self.hydrovt = HydrovType()  # veg hydrological variables (PFT)
+        self.phent = PhenType()  # phenology variables (PFT)
+        self.pooldt = PooldType()  # dead pool variables (Soil)
+        self.poollt = PoollType()  # live pool variables (PFT)
+        self.radt = RadType()  # radiation variables
+        self.sift = SifType()  # fluorescence variables
+        self.sscolt = SScolType()  # soil/snow column variables (Soil)
+        self.vegt = VegType()  # vegetation information (PFT)
+
+
+# ------------
+# define the gridcell structure
+# ------------
+class GridcellType:
+    def __init__(self):
+        # gridcell information
+        self.lat = None # latitude (degrees)
+        self.lon = None # longitude (degrees)
+
+        # variables defined at the gridcell level
+        self.gdiagt = GDiagType()  # diagnostic variables
+        self.gprogt = GProgType()  # prognostic variables
+
+        # gridcell -> landunit hierarchy
+        self.g_nlu = None  # number of land units per gridcell
+        # ...includes corresponding
+        # ....soil, veg (PFT), and canopy (INTEGER)
+
+        self.l = None  # land unit data structure (TYPE = LuType(),size= unknown)
+
+
+# -----------
+# define the top-level structure
+# -----------
+class SibT:
+    def __init__(self):
+        self.g = None  # !gridcell data structure (size = unknown, TYPE = GridcellType())
+
+
+# ------------------------------------------------------------------
+# End definition of spatial scaling hierarchy
+# ------------------------------------------------------------------
+def generate_sib_instance():
+    # Declare single instance of sibtype
+    sib = SibT()
+
+if __name__ == '__main__':
+    test_sibT = SibT()
+    test_gct = GridcellType()
+    test_lu = LuType()
+
