@@ -20,6 +20,11 @@ class AeroParam:
      self.RbC = None       #coefficient for canopy to CAS aerodynamic resistance
      self.RdC = None       #coefficient for ground to CAS aerodynamic resistance
 
+    def load_param(self,zo, zp, rdc, rbc):
+        self.zo = zo
+        self.zp_disp = zp
+        self.RbC = rbc
+        self.RdC = rdc
 
 #-------------------------------------------------
 # Phenology Parameters
@@ -325,14 +330,20 @@ class PoolParam:
         #(size = npoolpft)
         self.poolpft_min = None #minimum pool values (mol C/m2)
 
-
+def pp():
+    print(AeroParams['LAIgrid'])
+    print(AeroParams['AeroParam'].zo)
 #***********************************************************************
 #-----------------------------------------------------------------------
+
+"""
 # Aerodynamic Parameters
 ngrid = None  #number of points in interpolation table
 aerovar = None #(size = npft,ngrid,ngrid, type = AeroParam)
 LAIgrid = None      #(size=ngrid)
 fVCovergrid = None  #(size=ngrid)
+"""
+AeroParams={'ngrid':None,'aerovar':None,'LAIgrid':None,'fVCovergrid':None,'AeroParam':AeroParam()}
 
 # Phenological Parameters (size = npft, type = PhenParam)
 phencon = None
@@ -342,4 +353,6 @@ physcon = None
 
 # Pool Parameters (size = npft, type = PoolParam)
 poolcon = None
+
+
 #-----------------------------------------------------------------------
