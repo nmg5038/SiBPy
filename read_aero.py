@@ -1,7 +1,5 @@
 """
-    This module reads in the namelist designed for SiB4.
-    It checks for input validity (boolean, string, numerical) and converts
-    the input to be used in SiBPy.
+    This module reads in the aero file designed for SiB4.
 """
 
 __author__ = "Nicholas Geyer"
@@ -14,7 +12,6 @@ __email__ = "nicholas.geyer@colostate.edu"
 __status__ = "Development"
 
 import netCDF4 as nc
-
 
 def check_for_file(complete_path_with_filename):
     """
@@ -31,6 +28,13 @@ def check_for_file(complete_path_with_filename):
 
 
 def read_aerodynamics_tables(consts, aero_file):
+    """
+    This function will read in the aerodynamics file for SiBPy parameterizations
+    :param consts: A class of constants from module_sibconsts
+    :param aero_file: The path and filename of the aerodynamics file for SiBPy (string)
+    :return: Returns 6 necessary aerodynamic files
+    """
+
     npft = consts.npft
     aero_file = '/Users/nmg5038/sib4v2_corral/input/params/sib_aero.nc'  # Only for development
 
