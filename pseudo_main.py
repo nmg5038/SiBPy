@@ -15,13 +15,12 @@ __status__ = "Development"
 from read_namel import read_namel
 from module_sibconsts import Constants
 from module_param import *
-from read_aero import read_aerodynamics_tables
+from read_aero import load_up_aero_params
 
 if __name__ == '__main__':
 
     consts = Constants()
     options = read_namel('./unit_testing_input/namel_sibdrv')
-    AeroParams['LAIgrid'], AeroParams['fVCovergrid'], zo, zp, rdc, rbc = read_aerodynamics_tables(consts,
-                                                                                               options['aero_file'])
-    AeroParams['AeroParam'].load_param(zo, zp, rdc, rbc)
+    load_up_aero_params()
+    print(AeroParams)
 

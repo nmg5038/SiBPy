@@ -12,6 +12,10 @@ __email__ = "nicholas.geyer@colostate.edu"
 __status__ = "Development"
 
 import netCDF4 as nc
+from module_param import *
+from read_namel import read_namel
+from module_sibconsts import Constants
+
 
 def check_for_file(complete_path_with_filename):
     """
@@ -64,13 +68,21 @@ def read_aerodynamics_tables(consts, aero_file):
     aero_rbc = ncfid.variables['aero_rbc'][:]
 
     ncfid.close()
+
     return laigrid, fvcovergrid, aero_zo, aero_zp, aero_rdc, aero_rbc
 
 
-if __name__ == '__main__':
-    from read_namel import read_namel
+def load_up_aero_params():
     from module_sibconsts import Constants
-    from module_param import *
+    consts = Constants()
+    options = read_namel('./unit_testing_input/namel_sibdrv')
+    AeroParams['LAIgrid'], AeroParams['fVCovergrid'], zo, zp, rdc, rbc = read_aerodynamics_tables(consts,
+                                                                                                  options['aero_file'])
+    AeroParams['AeroParam'].load_param(zo, zp, rdc, rbc)
+    return
+
+
+if __name__ == '__main__':
 
     consts = Constants()
     options = read_namel('./unit_testing_input/namel_sibdrv')
