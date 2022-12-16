@@ -21,6 +21,7 @@ if __name__ == '__main__':
 
     consts = Constants()
     options = read_namel('./unit_testing_input/namel_sibdrv')
-    load_up_aero_params()
-    print(AeroParams)
+
+    #load_up_aero_params()
+    #print(AeroParams)
 
